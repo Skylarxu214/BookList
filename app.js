@@ -67,9 +67,41 @@ class UI {
         document.querySelector("#isbn").value =""
 
     }
+
+   
 }
 
 //Store Class: Handle Storage
+ class Store{
+     static getBooks(){
+        let books
+        if(localStorage.getItem('book')=== null){
+            books = []
+        }else {
+            books = JSON.parse(localStorage.getItem('book'))
+        }
+     }
+
+     static addBook(book){
+
+        const books = Store.getBooks()
+
+        books.push(book)
+
+        localStorage.setItem('books', JSON.stringify(books));
+     }
+
+     static removeBook(isbn){
+         const books = Store.getBooks()
+
+         books.forEach((book, index)=> {
+             if(book.isbn === isbn){
+                 books.splice(index, 1)
+             }
+        })
+        localStorage.setItem('books', JSON.stringify(books))
+    }
+ }
 
 //Event: Display Books
 document.addEventListener('DOMContentLoaded', UI.displayBooks)

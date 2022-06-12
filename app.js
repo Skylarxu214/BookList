@@ -24,13 +24,35 @@ class UI {
             }
         ]
         const books = StoredBooks;
+
+        books.forEach((book)=> UI.addBookToList(book));
+    }
+    static addBookToList(book){
+        const list = document.querySelector('#book-list');
+
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+            <td>${book.title}</td>
+            <td>${book.author}</td>
+            <td>${book.isbn}</td>
+            <td><a href="#" class= "btn btn-danger btn-sm delte">X</a></td>
+            `;
+            list.appendChild(row);
+    }
+    static deleteBook(el){
+        if (el.classList.contains('delete')){
+            el.parentElement.parentElement.remove();
+        }
     }
 }
 
 //Store Class: Handle Storage
 
 //Event: Display Books
-
+document.addEventListener('DOMContentLoaded', UI.displayBooks)
 //Event: Add a book
 
 //Event: Remove a book
+//test OOP
+

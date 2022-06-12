@@ -10,20 +10,21 @@ class Book {
 //UI Class: Handle UI Tasks
 class UI {
     static displayBooks(){
-        const StoredBooks = [
-            {
-                title: 'Eat That Frog',
-                author: 'Brian Tracy',
-                isbn:'1576751988'
+        // const StoredBooks = [
+        //     {
+        //         title: 'Eat That Frog',
+        //         author: 'Brian Tracy',
+        //         isbn:'1576751988'
 
-            },
-            {
-                title:'Book Two',
-                author: 'Tian X',
-                isbn: '1914'
-            }
-        ]
-        const books = StoredBooks;
+        //     },
+        //     {
+        //         title:'Book Two',
+        //         author: 'Tian X',
+        //         isbn: '1914'
+        //     }
+        // ]
+
+        const books = Store.getBooks();
 
         books.forEach((book)=> UI.addBookToList(book));
     }
@@ -74,12 +75,13 @@ class UI {
 //Store Class: Handle Storage
  class Store{
      static getBooks(){
-        let books
-        if(localStorage.getItem('book')=== null){
-            books = []
+        let books = []
+        if(localStorage.getItem('books') === null){
+           books = []
         }else {
-            books = JSON.parse(localStorage.getItem('book'))
+            books = JSON.parse(localStorage.getItem('books'))
         }
+        return books
      }
 
      static addBook(book){
@@ -125,6 +127,8 @@ document.querySelector("#book-form").addEventListener('submit',(e)=>
 
         // add book to UI
         UI.addBookToList(book)
+        // add book to store
+        Store.addBook(book)
         // Show success message
         UI.showAlert('Book Addes', 'success')
         
@@ -137,7 +141,8 @@ document.querySelector('#book-list').addEventListener('click', (e) => {
         UI.deleteBook(e.target)
      
         console.log(e.target.parentElement.firstElementChild.textContent)
-
+        // remobe book from store 
+        Store.removeBook(e.target.parentElement.previousElementSibling.textContent)
         // show delete message
         if(e.target.classList.contains('delete'))
         UI.showAlert(`${e.target.parentElement.parentElement.firstElementChild.textContent} is deleted`, 'info')
